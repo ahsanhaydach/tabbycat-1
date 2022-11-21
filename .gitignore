@@ -1,0 +1,81 @@
+# Django Related
+tabbycat/local_settings.py
+.gitmodules/
+__pycache__/
+
+# Compilation
+tabbycat/staticfiles/
+tabbycat/static/css/
+tabbycat/static/js/
+tabbycat/static/jsi18n/
+tabbycat/static/vue/
+tabbycat/static/fonts/
+
+# Translations
+.tx/
+
+# Dependencies
+node_modules
+
+# Docker
+dbdata
+
+# Docs
+docs/site/
+issues-*.html
+
+# Tags
+tags
+
+env/
+venv/
+venv-*/
+*.pyc
+*.swp
+*~
+*.db
+.DS_Store
+.debug
+.eslintcache
+
+# C extensions
+*.so
+
+# Packages
+*.egg
+*.egg-info
+dist
+build
+eggs
+parts
+var
+sdist
+develop-eggs
+.installed.cfg
+lib
+lib64
+
+# Installer logs
+pip-log.txt
+
+# Unit test / coverage reports
+.coverage
+.tox
+nosetests.xml
+
+# Translations
+# Include these because they can't be compiled on Heroku
+# *.mo
+
+# Mr Developer
+.mr.developer.cfg
+*.log
+*.pot
+*.pyc
+
+# Python 2to3 backup files
+*.bak
+/.stylelintcache
+
+# Redis
+dump.rdb

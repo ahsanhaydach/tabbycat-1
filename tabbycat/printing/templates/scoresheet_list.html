@@ -1,0 +1,76 @@
+{% extends "printables_list.html" %}
+{% load i18n l10n %}
+
+{% block head-title %}
+  {% trans "Scoresheets" %}
+{% endblock %}
+{% block page-title %}{% blocktrans trimmed with round_name=round.name %}
+Printable Scoresheets for {{ round_name }}
+{% endblocktrans %}{% endblock %}
+
+{% block content %}
+
+  <div id="vueMount">
+    <template v-for="ballot in ballots">
+      <div class="db-page-holder">
+  		  <main role="main" class="db-page db-flex-column db-page-landscape">
+          <printable-ballot :ballot="ballot" :kind="'Scoresheet'"
+                            :round-info="roundInfo"></printable-ballot>
+        </main>
+      </div>
+    </template>
+    <div v-if="ballots.length === 0" class="alert alert-warning">
+      {% trans "There are no scoresheets available — perhaps the round has not been drawn?" %}
+    </div>
+  </div>
+
+{% endblock content %}
+
+{% block js %}
+  <style>
+    @media print {
+      @page {
+        size: landscape;
+      }
+    }
+  </style>
+  <script>
+    window.vueData = {
+      // Strings to Fill In
+      roundInfo: {
+        tournamentName: '{{ tournament.short_name }}',
+        returnLocation: '{{ pref.score_return_location }}',
+        votingBallots: {% if round.ballots_per_debate == 'per-adj' %}true{% else %}false{% endif %},
+        // Formatting
+        showTabRoomRow: true,
+        showEmoji: {% if pref.show_emoji %}true{% else %}false{% endif %},
+        // From Django
+        round: '{{ round.name }}',
+        hasReplies: {% if pref.reply_scores_enabled %}true{% else %}false{% endif %},
+        isBP: {% if pref.teams_in_debate == 'two' %}false{% else %}true{% endif %},
+        speakersCount: {{ pref.substantive_speakers }},
+        showDigits: {% if pref.ballots_confirm_digits %}true{% else %}false{% endif %},
+        hideMotions: {% if pref.ballots_hide_motions %}true{% else %}false{% endif %},
+        // Rules
+        infoText: 'Speeches are x minutes, the speaker score range is from x to x. You have x minutes to form an adjudication.',
+        hasMotions: {% if pref.enable_motions %}true{% else %}false{% endif %},
+        hasVetoes: {% if pref.motion_vetoes_enabled %}true{% else %}false{% endif %},
+        // Formatting
+        showTabRoomRow: true,
+        showInfoRow: false,
+        substantiveMin: '{{ pref.score_min|unlocalize }}',
+        substantiveMax: '{{ pref.score_max|unlocalize }}',
+        substantiveStep: '{{ pref.score_step|unlocalize }}',
+        replyMin: '{{ pref.reply_score_min|unlocalize }}',
+        replyMax: '{{ pref.reply_score_max|unlocalize }}',
+        replyStep: '{{ pref.reply_score_step|unlocalize }}',
+        motions: {{ motions|safe }},
+        teamCodes: {{ use_team_code_names|lower }},
+      },
+      // From Django
+      ballots: {{ ballots|safe }},
+    }
+  </script>
+  {{ block.super }}
+
+{% endblock js %}

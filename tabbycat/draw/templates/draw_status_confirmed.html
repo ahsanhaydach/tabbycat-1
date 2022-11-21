@@ -1,0 +1,106 @@
+{% extends "draw_base.html" %}
+{% load humanize static debate_tags i18n %}
+
+{% block page-alerts %}
+  <div class="mb-3">
+    {% include "draw_alerts_teams.html" %}
+  </div>
+{% endblock %}
+
+{% block content %}
+
+  <div class="row mb-4">
+
+    <div class="col">
+      <div class="card">
+
+        <div class="card-body">
+          <h5 class="card-title mb-0">{% trans "Adjudicator Allocations" %}</h5>
+        </div>
+
+        <div class="list-group list-group-flush">
+          {% with no_chair=round.num_debates_without_chair even_panel=round.num_debates_with_even_panel %}
+
+            {% if active_adjs < debates_in_round %}
+
+              {% trans "There are currently fewer checked-in adjudicators than there are rooms." as message %}
+              {% include "components/item-info.html" with type=danger text=message %}
+
+            {% else %}
+
+              {% include "draw_alerts_adjudicators.html" %}
+
+            {% endif %} {# active_adjs < debates_in_round #}
+
+            {% roundurl 'adjallocation-round-edit' as url %}
+            {% if active_adjs < debates_in_round or no_chair > 0 or pref.ballots_per_debate == 'per-adj' and even_panel > 0 %}
+              {% trans "Allocate adjudicators" as title %}
+              {% include "components/item-action.html" with text=title type="success" to_complete=True %}
+            {% else %}
+              {% trans "Edit adjudicator allocation" as title %}
+              {% include "components/item-action.html" with text=title type="primary" %}
+            {% endif %}
+
+          {% endwith %}
+        </div>
+
+      </div>
+    </div>
+
+    <div class="col mt-md-0 mt-3">
+      <div class="card">
+
+        <div class="card-body">
+          <h5 class="card-title mb-0">{% trans "Venue Allocations" %}</h5>
+        </div>
+        <div class="list-group list-group-flush">
+
+          {% include "draw_alerts_venues.html" %}
+
+          {% roundurl 'venues-edit' round as url %}
+          {% if round.num_debates_without_venue > 0 %}
+            {% trans "Allocate venues" as title %}
+            {% include "components/item-action.html" with text=title type="success" to_complete=True %}
+          {% else %}
+            {% trans "Edit venue allocation" as title %}
+            {% include "components/item-action.html" with text=title type="primary" %}
+          {% endif %}
+
+        </div>
+
+      </div>
+    </div>
+
+    {% with sides_unconfirmed=round.num_debates_with_sides_unconfirmed %}
+      {% if sides_unconfirmed > 0 and pref.draw_side_allocations != 'manual-ballot' %}
+        <div class="col mt-md-0 mt-3">
+          <div class="card">
+
+            <div class="card-body">
+              <h5 class="card-title mb-0">{% trans "Side Allocations" %}</h5>
+            </div>
+
+            <div class="list-group list-group-flush">
+
+              {% blocktrans trimmed asvar text count ndebates=sides_unconfirmed %}
+                1 debate does not have its sides confirmed.
+              {% plural %}
+                {{ ndebates }} debates do not have their sides confirmed.
+              {% endblocktrans %}
+              {% include "components/item-info.html" with type="danger" %}
+
+              {% roundurl 'draw-matchups-edit' as url %}
+              {% include "components/item-action.html" with text="Allocate Sides" type="success" to_complete=True %}
+
+            </div>
+
+          </div>
+        </div>
+      {% endif %}
+    {% endwith %}
+
+  </div>
+
+  {{ block.super }}
+
+{% endblock %}

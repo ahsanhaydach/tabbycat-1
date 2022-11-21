@@ -1,0 +1,244 @@
+//------------------------------------------------------------------------------
+// Highlights for Allocation Pages
+//------------------------------------------------------------------------------
+
+.conflicts-toolbar:hover {
+  color: #fff; // Needed to keep consistent with other bars
+}
+
+.category-display {
+
+  &.category-0 {
+    @include hover-highlights($break-cat-1);
+  }
+
+  &.category-0-disabled {
+    @include outline-highlights($break-cat-1);
+  }
+
+  &.category-1 {
+    @include hover-highlights($break-cat-2);
+  }
+
+  &.category-1-disabled {
+    @include outline-highlights($break-cat-2);
+  }
+
+  &.category-2 {
+    @include hover-highlights($break-cat-3);
+  }
+
+  &.category-2-disabled {
+    @include outline-highlights($break-cat-3);
+  }
+
+  &.category-3 {
+    @include hover-highlights($break-cat-4);
+  }
+
+  &.category-4-disabled {
+    @include outline-highlights($break-cat-4);
+  }
+}
+
+.gender-display {
+
+  &.gender-male,
+  &.gender-m,
+  &.gender-M {
+    @include hover-highlights($male);
+  }
+
+  &.gender-female,
+  &.gender-f,
+  &.gender-F,
+  &.gender-nm {
+    @include hover-highlights($female);
+  }
+
+  &.gender-other,
+  &.gender-o,
+  &.gender-O {
+    @include hover-highlights($other);
+  }
+
+  &.gender-unknown,
+  &.gender-u,
+  &.gender-U,
+  &.gender- {
+    @include hover-highlights($unknown);
+  }
+
+  // For Teams
+  &.gender-men-2 {
+    @include hover-highlights($male);
+  }
+
+  &.gender-notmen-2 {
+    @include hover-highlights($female);
+  }
+
+  &.gender-men-3,
+  &.gender-men-4 {
+    @include hover-highlights(darken($male, 20%));
+  }
+
+  &.gender-notmen-3,
+  &.gender-notmen-4 {
+    @include hover-highlights(darken($female, 20%));
+  }
+}
+
+.gender-text {
+
+  &.gender-male {
+    color: $male;
+  }
+
+  &.gender-female,
+  &.gender-nm {
+    color: $female;
+  }
+
+  &.gender-other {
+    color: $other;
+  }
+
+  &.gender-unknown {
+    color: $unknown;
+  }
+}
+
+// For D3
+path.gender-nm {
+  fill: $female;
+}
+
+path.gender-male {
+  fill: $male;
+}
+
+path.gender-unknown {
+  fill: $unknown;
+}
+
+path.gender-other {
+  fill: $other;
+}
+
+// For diversity graphs and allocation
+.region-display {
+
+  &.region-0 {
+    @include hover-highlights($region-cat-0);
+  }
+
+  &.region-1 {
+    @include hover-highlights($region-cat-1);
+  }
+
+  &.region-2 {
+    @include hover-highlights($region-cat-2);
+  }
+
+  &.region-3 {
+    @include hover-highlights($region-cat-3);
+  }
+
+  &.region-4 {
+    @include hover-highlights($region-cat-4);
+  }
+
+  &.region-5 {
+    @include hover-highlights($region-cat-5);
+  }
+
+  &.region-6 {
+    @include hover-highlights($region-cat-6);
+  }
+
+  &.region-7 {
+    @include hover-highlights($region-cat-7);
+  }
+
+  &.region-8 {
+    @include hover-highlights($region-cat-8);
+  }
+}
+
+// For D3
+path.region-0 {
+  fill: $region-cat-0;
+}
+
+path.region-1 {
+  fill: $region-cat-1;
+}
+
+path.region-2 {
+  fill: $region-cat-2;
+}
+
+path.region-3 {
+  fill: $region-cat-3;
+}
+
+path.region-4 {
+  fill: $region-cat-4;
+}
+
+path.region-5 {
+  fill: $region-cat-5;
+}
+
+path.region-6 {
+  fill: $region-cat-6;
+}
+
+path.region-7 {
+  fill: $region-cat-7;
+}
+
+path.region-8 {
+  fill: $region-cat-8;
+}
+
+// Ranking Display
+.ranking-display {
+
+  &.ranking-90 {
+    @include hover-highlights($adj-ranking-0);
+  }
+
+  &.ranking-80 {
+    @include hover-highlights($adj-ranking-1);
+  }
+
+  &.ranking-70 {
+    @include hover-highlights($adj-ranking-2);
+  }
+
+  &.ranking-60 {
+    @include hover-highlights($adj-ranking-3);
+  }
+
+  &.ranking-50 {
+    @include hover-highlights($adj-ranking-4);
+  }
+
+  &.ranking-40 {
+    @include hover-highlights($adj-ranking-5);
+  }
+
+  &.ranking-30 {
+    @include hover-highlights($adj-ranking-6);
+  }
+
+  &.ranking-20 {
+    @include hover-highlights($adj-ranking-7);
+  }
+
+  &.ranking-10 {
+    @include hover-highlights($adj-ranking-8);
+  }
+}

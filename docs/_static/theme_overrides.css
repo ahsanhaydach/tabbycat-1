@@ -1,0 +1,58 @@
+
+pre.literal-block, .rst-content .literal-block, .rst-content pre.literal-block {
+  /* The theme rule-set applies with this specificity */
+  padding: 12px 12px;
+}
+.literal-block {
+  /* Non-!important overrides */
+  font-size: 12px;
+  line-height: 1.5;
+  color: #404040;
+  white-space: pre;
+  font-family: Consolas,"Andale Mono WT","Andale Mono","Lucida Console","Lucida Sans Typewriter","DejaVu Sans Mono","Bitstream Vera Sans Mono","Liberation Mono","Nimbus Mono L",Monaco,"Courier New",Courier,monospace;
+}
+.wy-table-responsive table td, .wy-table-responsive table th {
+  white-space: normal;
+}
+.rst-content table.docutils td {
+  vertical-align: top;
+}
+.rst-content table.docutils th.stub {
+  text-align: left;
+}
+.rst-content table.docutils p {
+  font-size: 100%;
+  margin-bottom: 12px;
+}
+.rst-content table.docutils ul {
+  margin-bottom: 12px;
+}
+.rst-content table.docutils ul:last-child {
+  margin-bottom: 0;
+}
+.rst-content .section ul.spaced-list > li, .rst-content .section ol.spaced-list > li  {
+  /* Allows some lists to have spacing between list items, useful for lists
+     comprising paragraph. To use, use the directive
+       .. rst-class:: spaced-list
+     just before the first element of the list.
+  */
+  margin-bottom: 12px;
+}
+.rst-content .section ul ul.spaced-list, .rst-content .section ul ol.spaced-list,
+.rst-content .section ol ul.spaced-list, .rst-content .section ol ol.spaced-list {
+  margin-top: 12px;
+}
+
+#logo {
+  max-width: 75px;
+  margin-right: 15px;
+  float: left;
+}
+
+@media (min-width:600px)  {
+  #logo {
+    max-width: 60px;
+    margin-right: 10px;
+    margin-top: -10px;
+  }
+}

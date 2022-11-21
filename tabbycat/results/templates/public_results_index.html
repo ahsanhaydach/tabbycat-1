@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load debate_tags i18n %}
+
+{% block head-title %}<span class="emoji">💥</span> {% trans "Results" %}{% endblock %}
+{% block page-title %}💥 {% trans "Results" %}{% endblock %}
+
+{% block content %}
+
+<ul class="list-group">
+  {% for r in tournament.round_set.all %}
+    {% if not r.silent or pref.all_results_released %}
+      {% if r.seq < current_round.seq or pref.all_results_released %}
+        {% roundurl 'results-public-round' r as url %}
+        {% blocktrans trimmed with round_name=r.name asvar text %}
+          Results for {{ round_name }}
+        {% endblocktrans %}
+        {% include "components/item-action.html" with icon="trending-up" %}
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+</ul>
+
+{% endblock content %}

@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -eo pipefail
+
+echo "-----> I'm post-compile hook"
+cd ./tabbycat/
+
+echo "-----> Running database migration"
+python manage.py migrate --noinput
+
+echo "-----> Running dynamic preferences checks"
+python manage.py checkpreferences
+
+echo "-----> Running static asset compilation"
+npm install -g @vue/cli-service-global
+npm run build
+
+echo "-----> Running static files compilation"
+python manage.py collectstatic --noinput -v 0
+
+echo "-----> Post-compile done"

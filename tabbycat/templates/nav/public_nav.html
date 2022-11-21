@@ -1,0 +1,195 @@
+{% load debate_tags i18n %}
+
+<!-- TAB RELEASES -->
+{% if pref.team_tab_released %}
+  <li class="nav-item {% if tab_team_nav %}active{% endif %}">
+    <a class="nav-link" href="{% tournamenturl 'standings-public-tab-team' %}">{% trans "Team Tab" %}</a>
+  </li>
+{% endif %}
+{% if pref.break_category_tabs_released %}
+  {% for category in tournament.break_categories_nongeneral %}
+    <li>
+      <a class="nav-link" href="{% tournamenturl 'standings-public-tab-break-category' category=category.slug %}">
+        {% blocktrans trimmed with category_name=category.name %}
+          {{ category_name }} Teams
+        {% endblocktrans %}
+      </a>
+    </li>
+  {% endfor %}
+{% endif %}
+{% if pref.speaker_tab_released %}
+  <li class="nav-item {% if tab_speaker_nav %}active{% endif %}">
+    <a class="nav-link" href="{% tournamenturl 'standings-public-tab-speaker' %}">{% trans "Speaker Tab" %}</a>
+  </li>
+{% endif %}
+{% if pref.speaker_category_tabs_released %}
+  {% for category in tournament.speakercategory_set.all %}
+    {% if category.public %}
+      <li>
+        <a class="nav-link" href="{% tournamenturl 'standings-public-tab-speaker-category' category=category.slug %}">
+          {% blocktrans trimmed with category_name=category.name %}
+            {{ category_name }} Speakers
+          {% endblocktrans %}
+        </a>
+      </li>
+    {% endif %}
+  {% endfor %}
+{% endif %}
+{% if pref.replies_tab_released %}
+  <li class="nav-item {% if tab_replies_nav %}active{% endif %}">
+    <a class="nav-link" href="{% tournamenturl 'standings-public-tab-replies' %}">{% trans "Replies Tab" %}</a>
+  </li>
+{% endif %}
+{% if pref.adjudicators_tab_released %}
+  <li class="nav-item {% if adjudicators_nav %}active{% endif %}">
+    <a class="nav-link" href="{% tournamenturl 'standings-public-adjudicators-tab' %}">{% trans "Adjudicator Tab" %}</a>
+  </li>
+{% endif %}
+{% if pref.motion_tab_released %}
+  <li class="nav-item {% if motions_nav %}active{% endif %}">
+    <a class="nav-link" href="{% tournamenturl 'motions-public-statistics' %}">{% trans "Motions Tab" %}</a>
+  </li>
+{% endif %}
+
+<!-- DRAW RELEASES -->
+{% if pref.public_draw == 'all-released' and not pref.team_tab_released %}
+  <li class="nav-item dropdown {% if draw_nav %}active{% endif %}">
+    <a class="nav-link dropdown-toggle" href="#" id="drawsDrop"
+       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      {% trans "Draws" %}
+    </a>
+    <div class="dropdown-menu draw-dropdown-menu" aria-labelledby="drawsDrop">
+      {% for r in tournament.round_set.all %}
+        {% if r.draw_status == r.STATUS_RELEASED %}
+          <a class="dropdown-item" href="{% roundurl 'draw-public-for-round' r %}">
+            {{ r.name }}
+          </a>
+        {% endif %}
+      {% endfor %}
+      {% if pref.enable_mass_draws %}
+        <div role="separator" class="divider"></div>
+        <a class="dropdown-item" href="{% tournamenturl 'draw-public-all-draws' %}">
+          {% trans "View All" %}
+        </a>
+      {% endif %}
+      <div class="dropdown-item">
+        {% trans "No Draws Available" %}
+      </div>
+    </div>
+  </li>
+{% elif pref.public_draw == 'current' and current_round.draw_status == current_round.STATUS_RELEASED and not pref.team_tab_released %}
+  <li class="nav-item {% if draw_nav %}active{% endif %}">
+    <a class="nav-link" href="{% tournamenturl 'draw-public-current-round' %}">
+      {% blocktrans trimmed with round_name=current_round.name %}
+        Draw for {{ round_name }}
+      {% endblocktrans %}
+    </a>
+  </li>
+{% endif %}
+
+<!-- CHECK INS -->
+{% if pref.public_checkins  %}
+  <li class="nav-item {% if checkins_status %}active{% endif %}">
+    <a class="nav-link" href="{% tournamenturl 'checkins-public-status' %}">
+      {% trans "Check-Ins" %}
+    </a>
+  </li>
+{% endif %}
+
+<!-- RESULTS RELEASES -->
+{% if pref.public_results and current_round.prev %}
+  <li class="nav-item dropdown {% if results_nav %}active{% endif %}">
+    <a class="nav-link dropdown-toggle" href="#" id="roundsDrop"
+       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+       {% trans "Results" %}
+    </a>
+    <div class="dropdown-menu" aria-labelledby="roundsDrop">
+      {% for r in tournament.round_set.all %}
+        {% if not r.silent or pref.all_results_released %}
+          {% if r.seq < current_round.seq or pref.all_results_released %}
+            <a class="dropdown-item" href="{% roundurl 'results-public-round' r %}">
+              {{ r.name }}
+            </a>
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+    </div>
+  </li>
+{% endif %}
+
+<!-- BREAK RELEASES -->
+{% if pref.public_breaking_teams or pref.public_breaking_adjs %}
+
+  <li class="nav-item dropdown {% if break_nav %}active{% endif %}">
+    <a class="nav-link dropdown-toggle" href="#" id="breakdrop"
+       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      {% trans "Break" %}
+    </a>
+    <div class="dropdown-menu" aria-labelledby="breakdrop">
+      {% if pref.public_breaking_teams %}
+        {% for category in tournament.breakcategory_set.all %}
+          <a class="dropdown-item" href="{% tournamenturl 'breakqual-public-teams' category.slug %}">
+            {{ category.name }}
+          </a>
+        {% endfor %}
+      {% endif %}
+      {% if pref.public_breaking_adjs %}
+        <a class="dropdown-item" href="{% tournamenturl 'breakqual-public-adjs' %}">
+          {% trans "Adjudicators" %}
+        </a>
+      {% endif %}
+    </div>
+  </li>
+{% endif %}
+
+<!-- MISC -->
+{% if pref.public_divisions %}
+  <li>
+    <a class="nav-link" href="{% tournamenturl 'public_divisions' %}">{% trans "Divisions" %}</a>
+  </li>
+{% endif %}
+{% if pref.public_motions and pref.motion_tab_released == False %}
+  <li class="nav-item {% if motions_nav %}active{% endif %}">
+    <a class="nav-link" href="{% tournamenturl 'motions-public' %}">{% trans "Motions" %}</a>
+  </li>
+{% endif %}
+{% if pref.public_side_allocations %}
+  <li class="nav-item {% if sides_nav %}active{% endif %}">
+    <a class="nav-link" href="{% tournamenturl 'draw-public-side-allocations' %}">{% trans "Sides" %}</a>
+  </li>
+{% endif %}
+{% if pref.public_team_standings and current_round.prev and not pref.team_tab_released %}
+  <li>
+    <a class="nav-link" href="{% tournamenturl 'standings-public-teams-current' %}">{% trans "Standings" %}</a>
+  </li>
+{% endif %}
+{% if pref.public_diversity %}
+  <li class="nav-item {% if diversity_nav %}active{% endif %}">
+    <a class="nav-link" href="{% tournamenturl 'standings-public-diversity' %}">{% trans "Diversity" %}</a>
+  </li>
+{% endif %}
+{% if pref.public_participants %}
+  <li class="nav-item {% if participants_nav %}active{% endif %}">
+    <a class="nav-link" href="{% tournamenturl 'participants-public-list' %}">{% trans "Participants" %}</a>
+  </li>
+{% endif %}
+{% if pref.public_institutions_list %}
+  <li class="nav-item {% if institutions_nav %}active{% endif %}">
+    <a class="nav-link" href="{% tournamenturl 'participants-public-institutions-list' %}">{% trans "Institutions" %}</a>
+  </li>
+{% endif %}
+{% if pref.feedback_progress %}
+  <li class="nav-item {% if feedback_progress_nav %}active{% endif %}">
+    <a class="nav-link" href="{% tournamenturl 'public_feedback_progress' %}">{% trans "Feedback Progress" %}</a>
+  </li>
+{% endif %}
+{% if pref.participant_ballots == 'public' %}
+  <li class="nav-item {% if enter_ballots_nav %}active{% endif %}">
+    <a class="nav-link" href="{% tournamenturl 'results-public-ballot-submission-index' %}">{% trans "Enter Ballot" %}</a>
+  </li>
+{% endif %}
+{% if pref.participant_feedback == 'public' %}
+  <li class="nav-item {% if enter_feedback_nav %}active{% endif %}">
+    <a class="nav-link" href="{% tournamenturl 'adjfeedback-public-add-index' %}">{% trans "Enter Feedback" %}</a>
+  </li>
+{% endif %}

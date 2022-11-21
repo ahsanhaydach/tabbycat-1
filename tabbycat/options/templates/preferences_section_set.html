@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load debate_tags i18n %}
+
+{% load add_field_css %}
+
+{% block page-title %}{% blocktrans trimmed with section_name=section.verbose_name %}
+  Configuration: {{ section_name }}
+{% endblocktrans %}{% endblock %}
+{% block head-title %}<span class="emoji">🔧</span>
+  {% blocktrans trimmed with section_name=section.verbose_name %}
+    Edit Configuration: {{ section_name }}
+  {% endblocktrans %}
+{% endblock %}
+
+{% block page-subnav-sections %}
+
+  <a class="btn btn-outline-primary"
+     href="{% tournamenturl 'options-tournament-index' %}">
+    <i data-feather="chevron-left"></i> {% trans "Back to Configuration" %}
+  </a>
+
+{% endblock %}
+
+{% block content %}
+
+  <form  enctype="multipart/form-data" method="post">
+    <div class="card mt-3">
+
+      {% include "components/form-main.html" with double=True %}
+      {% include "components/form-submit.html" with title="Save Configuration" %}
+
+    </div>
+  </form>
+
+{% endblock content %}

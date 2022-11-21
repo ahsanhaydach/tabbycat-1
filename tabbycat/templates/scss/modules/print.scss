@@ -1,0 +1,27 @@
+@media print {
+
+  // Used by WADL and Feedback Ballots
+  .printable-page-break {
+    page-break-after: always;
+  }
+
+  // Used by WADL
+  .printable-mastersheet {
+    page-break-inside: avoid;
+  }
+
+  .page-header .col-md-12 {
+    padding-left: 0;
+  }
+
+  // Don't split a table across multiple pages
+  table {
+    page-break-before: avoid;
+    page-break-inside: auto;
+
+    tr {
+      page-break-inside: avoid;
+      page-break-after: auto;
+    }
+  }
+}

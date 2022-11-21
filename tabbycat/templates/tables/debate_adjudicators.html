@@ -1,0 +1,13 @@
+<td class="adj-names">
+  {% for adj, type in debate.adjudicators.with_positions %}
+    {% if type == 'c' %}
+      <span class="adj-chair">{{ adj.name }}</span> Ⓒ
+    {% elif type == 't' %}
+      <br><span class="adj-trainee">{{ adj.name }}</span> Ⓣ
+    {% else %}
+      {% if debate.adjudicators.is_panel %}<br>{% endif %}
+      <span class="adj-normal">{{ adj.name }}</span>
+    {% endif %}
+    {% if debate.adjudicators.is_panel %}</li>{% endif %}
+  {% endfor %}
+</td>
